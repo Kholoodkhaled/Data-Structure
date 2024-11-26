@@ -12,9 +12,9 @@ class Node
             Prev=Next=NULL;
         }
 
-    protected:
+   
 
-    private:
+
 };
 
 #endif // NODE_H
