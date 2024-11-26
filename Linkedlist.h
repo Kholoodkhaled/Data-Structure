@@ -2,187 +2,177 @@
 #define LINKEDLIST_H
 
 #include "Node.h"
+#include <iostream>
 using namespace std;
-class Linkedlist
-{
-    //How Many Node ?
-    //Node node;
-    //Node node[?????];
-    private:
-        Node * head;
-        Node * tail;
-        int Nodecount=0;
-      //  int index=0;
 
-    Node * getNodeUsingData(int data){
-        Node *current=head;
-        while(current != NULL){
-            if(current->Data==data){
+class LinkedList
+{
+private:
+    Node* head;
+    Node* tail;
+    int Nodecount;
+
+
+    Node* getNodeUsingIndex(int index)
+    {
+        if (index < 0 || index >= Nodecount)
+            return NULL;
+
+        Node* current = head;
+        int currentIndex = 0;
+        while (current != NULL)
+        {
+            if (currentIndex == index)
                 return current;
-            }
-            //Jump
-            current=current->Next;
+            current = current->Next;
+            currentIndex++;
         }
         return NULL;
-
     }
 
 
-    Node * getNodeUsingindex(int index){
-        Node *current=head;
-        while(current != NULL){
-            if(current->head==index){
-                return Node[index];
-            }
-            //Jump
-            current=current->Next;
-
-
-    }}
-
-
-    public:
-        Linkedlist() {
-            head=tail=NULL;
-        }
-        void add(int data){
-            //Create Node
-            Node * node = new Node(data); //Create Object Node , Data=data , next,prev=null
-            Nodecount+=1;
-            index+=1;
-                if(head == NULL){//First Node
-                    head=tail=node;
-                    //node->Next=node->prev=NULL;
-                }
-                else{//Not First Node
-                    tail->Next =node; //Old->Next=NewNode
-                    node->Prev=tail; //newNode->prev=old(Node)
-                    tail=node;//tail=node;
-                }
-        }
-
-        /// get number of nodes
-        int GetCount()
+    Node* getNodeUsingData(int data)
+    {
+        Node* current = head;
+        while (current != NULL)
         {
-          return Nodecount;
+            if (current->Data == data)
+                return current;
+            current = current->Next;
+        }
+        return NULL;
+    }
+
+public:
+    // Constructor
+    LinkedList()
+    {
+        head = tail = NULL;
+        Nodecount = 0;
+    }
+
+    /// create a node
+    void add(int data)
+    {
+        Node* node = new Node(data);
+        Nodecount++;
+
+        /// First node
+        if (head == NULL)
+        {
+            head = tail = node;
+        }
+        else
+        {
+            tail->Next = node;
+            node->Prev = tail;
+            tail = node;
+        }
+    }
+
+    /// Get the number of nodes
+    int GetCount()
+    {
+        return Nodecount;
+    }
+
+    /// Display the list
+    void display()
+    {
+        Node* current = head;
+        if (current == NULL)
+        {
+            cout << "Linked List is Empty\n";
+            return;
+        }
+        while (current != NULL)
+        {
+            cout << current->Data << "\t";
+            current = current->Next;
+        }
+        cout << endl;
+    }
+
+    /// Insert a node after a given node
+    void InsertAfter(int data, int afterData)
+    {
+        Node* node = getNodeUsingData(afterData);
+        if (node == NULL)
+        {
+            cout << "Element not found. Can't add after the element.\n";
+            return;
         }
 
-        void display(){
-            Node * current =head;//NULL
-            if(current == NULL){
-                cout<<"Linked List is Empty \n";
-                return ;
-            }
-            while(current != NULL){
-                //Display
-                cout<<current->Data<<"\t";
-                //Increment Jump Node
-                current=current->Next;
-            }
-            cout<<endl;
+        Node* addedNode = new Node(data);
+        Nodecount++;
+
+
+        /// Insert after tail
+        if (node == tail)
+        {
+            node->Next = addedNode;
+            addedNode->Prev = node;
+            tail = addedNode;
         }
-
-
-
-
-   /// Insert node after a given node
-
-    void InsertAfter(int data, int afterData) {
-    // Find the node with the specified value (afterData)
-    Node* node = getNodeUsingData(afterData);
-    if (node == NULL) {
-        cout << "Element not found. Can't add after the element.\n";
-        return;
+        else
+        /// Insert after a middle node
+        {
+            Node* nextNode = node->Next;
+            node->Next = addedNode;
+            addedNode->Prev = node;
+            addedNode->Next = nextNode;
+            nextNode->Prev = addedNode;
+        }
     }
 
-    /// Create a new node
-    Node* addedNode = new Node(data);
-
-    ///Insert after  first node
-    if (node == head && node == tail)
+    /// Insert a node before a given node
+    void InsertBefore(int data, int beforeData)
     {
-        node->Next = addedNode;
-        addedNode->Previous = node;
-        tail = addedNode;
-    }
-    ///Insert after  tail node
-    else if (node == tail)
-    {
-        node->Next = addedNode;
-        addedNode->Previous = node;
-        tail = addedNode;
-    }
-    ///  Insert after  middle node
-    else
-    {
-        Node* nextNode = node->Next;
-        node->Next = addedNode;
-        addedNode->Previous = node;
-        addedNode->Next = nextNode;
-        nextNode->Previous = addedNode;
-    }
-
-//cout << "Node with data " << data << " inserted after node with data " << afterData << ".\n";
-}
-
-
-
-    ///insert node before given node
-	void InsertBefore(int data, int beforeData)
-	{
         Node* node = getNodeUsingData(beforeData);
-    if (node == NULL) {
-        cout << "Element not found. Can't add after the element.\n";
-        return;
-    }
-
-    /// Create a new node
-    Node* addedNode = new Node(data);
-
-    ///Insert before  first node
-    if (node == head && node == tail)
-    {
-        node->Previous = addedNode;
-        addedNode->Previous = NULL;
-        addedNode->Next = node;
-        tail = node;
-    }
-    ///Insert before  tail node
-    else if (node == tail)
-    {
-        node->Previous = addedNode;
-        addedNode->Next = node;
-        tail = node;
-    }
-    ///  Insert before  middle node
-    else
-    {
-        Node* previousNode = node->Next;
-        node->Next = addedNode;
-        addedNode->Previous = previousNode;
-        addedNode->Next = node;
-        nextNode->Next = addedNode;
-    }
-
-//cout << "Node with data " << data << " inserted before node with data " << beforeData << ".\n";
-}
-
-
-
-	}
-
-
-    int search_using_index(int index){
-        Node * node = getNodeUsingindex(index);
-        if(node == NULL){
-            return 0;
+        if (node == NULL)
+        {
+            cout << "Element not found. Can't add before the element.\n";
+            return;
         }
-        else{
-            return 1;
+
+        Node* addedNode = new Node(data);
+        Nodecount++;
+
+        /// Insert before head
+        if (node == head)
+        {
+            addedNode->Next = head;
+            head->Prev = addedNode;
+            head = addedNode;
+        }
+        else
+        /// Insert before a middle node
+        {
+            Node* previousNode = node->Prev;
+            previousNode->Next = addedNode;
+            addedNode->Prev = previousNode;
+            addedNode->Next = node;
+            node->Prev = addedNode;
         }
     }
-    protected:
 
+    /// Get node data by index
+    int getNodeDataByIndex(int index)
+    {
+        Node* node = getNodeUsingIndex(index);
+        if (node == NULL)
+        {
+            cout << "Index out of bounds.\n";
+            return -1;
+        }
+        return node->Data;
+    }
+
+    /// Search for a node by index
+    bool search_using_index(int index)
+    {
+        return (getNodeUsingIndex(index) != NULL);
+    }
 };
 
-#endif // LINKEDLIST_H
+#endif
