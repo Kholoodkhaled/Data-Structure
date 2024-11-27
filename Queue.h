@@ -104,7 +104,16 @@ public:
     {
         if (!IsEmpty())
         {
-            return Q[rear];
+            if (circular)
+            {
+                /// Rear of circular queue
+                return Q[(rear == 0) ? StkSize - 1 : rear - 1];
+            }
+            else
+            {
+                /// Rear of shifting queue
+                return Q[rear - 1];
+            }
         }
         else
         {
