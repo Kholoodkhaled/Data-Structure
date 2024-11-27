@@ -12,7 +12,8 @@ int main()
     Q1.EnQueue(20);
     Q1.EnQueue(30);
     Q1.display();
-
+    cout<<"Front value is "<< Q1.Getfront()<< endl;
+    cout<<"rear value is "<< Q1.GetRear() << endl;
     Q1.DeQueue();
     Q1.display();
 
@@ -21,7 +22,8 @@ int main()
     Q2.EnQueue(3);
     Q2.EnQueue(4);
     Q2.display();
-
+    cout<<"Front value is " <<Q2.Getfront()<< endl;
+    cout<<"rear value is " << Q2.GetRear() << endl;
     Q2.DeQueue();
 
     Q2.EnQueue(5);
