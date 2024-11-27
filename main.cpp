@@ -1,35 +1,35 @@
 #include <iostream>
-#include "stacklist.h"
+#include "LinkedList.h"
 using namespace std;
 
 int main()
 {
-    stacklist stk;
-    int topValue;
+    int nodeNum;
+    LinkedList mylist;
 
-    /// Pushing elements to stack
-    stk.push(10);
-    stk.push(20);
-    stk.push(15);
-    stk.push(5);
+    mylist.add(3);
+    mylist.add(5);
+    mylist.display();
 
-    /// display stack elements
-    stk.display();
-    cout<<endl;
+    /// Insert node after a given node
+    mylist.InsertAfter(10, 3);
+    mylist.display();
 
-    /// Pop elements from stack
-    cout  << stk.pop() << endl;   // 5
-    cout << stk.pop() << endl;   // 15
+    /// Insert node before a given node
+    mylist.InsertBefore(7, 5);
+    mylist.display();
 
+    nodeNum = mylist.GetCount();
+    cout << "\n Number of nodes: " << nodeNum << endl;
 
-     /// get(display) top element of stack
-    if (stk.peek(topValue))
+    if (!mylist.search_using_index(3))
     {
-        cout << "Top element is: " << topValue << endl;
+        cout << "Not Found" << endl;
     }
     else
     {
-        cout << "Stack is empty.\n";
+        cout << "\n index Found" << endl;
+        cout << " Data in node index 3 is: "  <<mylist.getNodeDataByIndex(3)<< endl;;
     }
 
     return 0;
